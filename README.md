@@ -61,6 +61,6 @@ vim.o.guifont = "FiraCode Nerd Font Mono:h12"
 - [x] Argument passing
 - [x] Font loading
 - [x] Setting PATH
-- [ ] Set Neovim cache dir and all other directories to contain the application.
+- [x] Set Neovim cache dir and all other directories to contain the application.
 - [ ] Compile everything into a single executable
     - [ ] Compile Neovim and Neovide from source

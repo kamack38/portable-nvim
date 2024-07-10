@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
 #include <vector>
 
 bool LoadCustomFont(const std::string &fontPath) {
@@ -103,6 +104,12 @@ int main(int argc, char *argv[]) {
     std::string neovidePath = exePath + "\\neovide.exe";
     std::string xdgConfigHome = exePath + "\\config";
 
+    std::vector<std::pair<std::string, std::string>> envs = {
+        {"XDG_CONFIG_HOME", exePath + "\\config"},
+        {"XDG_DATA_HOME", exePath + "\\data"},
+        {"XDG_STATE_HOME", exePath + "\\data"},
+        {"XDG_CACHE_HOME", exePath + "\\cache"}};
+
     std::vector<std::string> fonts = {
         "FiraCodeNerdFontMono-Medium.ttf", "FiraCodeNerdFontMono-Bold.ttf",
         "FiraCodeNerdFontMono-Light.ttf", "FiraCodeNerdFontMono-SemiBold.ttf",
@@ -133,11 +140,13 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Set the XDG_CONFIG_HOME environment variable
-    if (!SetEnvVariable("XDG_CONFIG_HOME", xdgConfigHome.c_str())) {
-        std::cerr << "Could not set XDG_CONFIG_HOME variable";
-        UnloadFonts(fonts, fontsDir);
-        return 1;
+    // Set environment variables
+    for (auto i : envs) {
+        if (!SetEnvVariable(i.first.c_str(), i.second.c_str())) {
+            std::cerr << "Could not set " << i.first << " variable";
+            UnloadFonts(fonts, fontsDir);
+            return 1;
+        }
     }
 
     // Pass all passed arguments to Neovide
