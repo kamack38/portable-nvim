@@ -1,0 +1,7 @@
+# Ignore executables and Neovim config
+nvim
+git
+fonts
+config
+*.exe
+*.o
